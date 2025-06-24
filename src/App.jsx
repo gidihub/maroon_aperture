@@ -1,8 +1,9 @@
 // src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Upload from './Upload';
 import AuthForm from './AuthForm';
 import Dashboard from './Dashboard';
+import Upload from './Upload';
+import Gallery from './Gallery';
 import ProtectedRoute from './ProtectedRoute';
 
 function App() {
@@ -26,9 +27,18 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/gallery"
+          element={
+            <ProtectedRoute>
+              <Gallery />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
