@@ -37,23 +37,37 @@ export default function Gallery() {
 
   const createCheckoutSession = async (image) => {
     try {
+      console.log("🚀 Starting checkout session creation...");
+      console.log("Image data:", { name: image.name, url: image.url });
+      console.log("Origin:", window.location.origin);
+      
       // Call the Firebase callable function
       const createSession = httpsCallable(functions, 'createCheckoutSession');
+      console.log("📞 Calling Firebase function...");
+      
       const result = await createSession({
         origin: window.location.origin,
         imageName: image.name,
         imageUrl: image.url,
       });
 
+      console.log("✅ Function result:", result);
+      console.log("📊 Result data:", result.data);
+
       const { url } = result.data;
       if (url) {
+        console.log("🔗 Redirecting to:", url);
         window.location.href = url;
       } else {
-        alert("Error creating checkout session");
+        console.error("❌ No URL in response");
+        alert("Error creating checkout session - no URL returned");
       }
     } catch (error) {
-      console.error("Stripe Checkout error:", error);
-      alert("Error creating checkout session");
+      console.error("❌ Stripe Checkout error:", error);
+      console.error("Error code:", error.code);
+      console.error("Error message:", error.message);
+      console.error("Error details:", error.details);
+      alert(`Error creating checkout session: ${error.message}`);
     }
   };
 
