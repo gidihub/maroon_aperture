@@ -4,6 +4,7 @@ import AuthForm from './AuthForm';
 import Dashboard from './Dashboard';
 import Upload from './Upload';
 import Gallery from './Gallery';
+import AdminDashboard from './AdminDashboard';
 import ProtectedRoute from './ProtectedRoute';
 
 function App() {
@@ -32,6 +33,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Gallery />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute requireAdmin>
+              <AdminDashboard />
             </ProtectedRoute>
           }
         />
