@@ -5,6 +5,7 @@ import Dashboard from './Dashboard';
 import Upload from './Upload';
 import Gallery from './Gallery';
 import AdminDashboard from './AdminDashboard';
+import SetupAdmin from './SetupAdmin';
 import ProtectedRoute from './ProtectedRoute';
 
 function App() {
@@ -33,6 +34,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Gallery />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/setup-admin"
+          element={
+            <ProtectedRoute>
+              <SetupAdmin />
             </ProtectedRoute>
           }
         />

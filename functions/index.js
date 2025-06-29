@@ -201,3 +201,48 @@ exports.checkPaymentStatus = onCall(async (request) => {
   }
 });
 
+// ✅ 5. Setup Admin Access (for development)
+exports.setupAdmin = onCall(async (request) => {
+  if (!request.auth || !request.auth.uid) {
+    throw new Error('User must be authenticated');
+  }
+
+  try {
+    const userId = request.auth.uid;
+    logger.info('🔧 Setting up admin access for user:', userId);
+
+    // Check if user document exists
+    const userDoc = await admin.firestore().collection('users').doc(userId).get();
+    
+    if (userDoc.exists) {
+      logger.info('✅ User document exists');
+      const userData = userDoc.data();
+      logger.info('Current user data:', userData);
+      
+      if (userData.isAdmin) {
+        logger.info('✅ User is already an admin');
+        return { success: true, message: 'User is already an admin', isAdmin: true };
+      } else {
+        logger.info('❌ User is not an admin, updating...');
+        await admin.firestore().collection('users').doc(userId).update({
+          isAdmin: true
+        });
+        logger.info('✅ User is now an admin');
+        return { success: true, message: 'User is now an admin', isAdmin: true };
+      }
+    } else {
+      logger.info('❌ User document does not exist, creating...');
+      await admin.firestore().collection('users').doc(userId).set({
+        isAdmin: true,
+        email: request.auth.token.email || 'unknown@example.com',
+        createdAt: admin.firestore.FieldValue.serverTimestamp()
+      });
+      logger.info('✅ User document created with admin access');
+      return { success: true, message: 'User document created with admin access', isAdmin: true };
+    }
+  } catch (error) {
+    logger.error('Error setting up admin:', error);
+    throw new Error('Unable to setup admin access');
+  }
+});
+
