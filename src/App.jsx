@@ -6,6 +6,7 @@ import Upload from './Upload';
 import Gallery from './Gallery';
 import AdminDashboard from './AdminDashboard';
 import SetupAdmin from './SetupAdmin';
+import AutoSetupAdmin from './AutoSetupAdmin';
 import ProtectedRoute from './ProtectedRoute';
 
 function App() {
@@ -42,6 +43,14 @@ function App() {
           element={
             <ProtectedRoute>
               <SetupAdmin />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/auto-setup-admin"
+          element={
+            <ProtectedRoute>
+              <AutoSetupAdmin />
             </ProtectedRoute>
           }
         />
