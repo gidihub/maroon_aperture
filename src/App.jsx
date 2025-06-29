@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AuthForm from './AuthForm';
 import Dashboard from './Dashboard';
+import AdminPanel from './AdminPanel';
 import Upload from './Upload';
 import Gallery from './Gallery';
 import AdminDashboard from './AdminDashboard';
@@ -14,6 +15,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<AuthForm />} />
+        
         <Route
           path="/dashboard"
           element={
@@ -22,6 +24,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/upload"
           element={
@@ -30,6 +33,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/gallery"
           element={
@@ -38,6 +42,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/setup-admin"
           element={
@@ -46,6 +51,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/auto-setup-admin"
           element={
@@ -54,11 +60,12 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/admin"
           element={
-            <ProtectedRoute requireAdmin>
-              <AdminDashboard />
+            <ProtectedRoute>
+              <AdminPanel />
             </ProtectedRoute>
           }
         />
@@ -68,4 +75,5 @@ function App() {
 }
 
 export default App;
+
 
