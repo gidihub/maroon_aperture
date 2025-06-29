@@ -12,6 +12,7 @@ export default function ProtectedRoute({ children, requireAdmin = false }) {
 
   useEffect(() => {
     console.log('ProtectedRoute user:', user);
+    console.log("ProtectedRoute loading:", loading, "user:", user);
     if (!loading && user) {
       if (requireAdmin) {
         const checkAdmin = async () => {
@@ -26,7 +27,7 @@ export default function ProtectedRoute({ children, requireAdmin = false }) {
         setAuthorized(true);
         setChecking(false);
       }
-    } else if (!user) {
+    } else if (!loading && !user) {
       setChecking(false);
     }
   }, [user, loading, requireAdmin]);
@@ -40,8 +41,11 @@ export default function ProtectedRoute({ children, requireAdmin = false }) {
   }
 
   if (!user || !authorized) {
-    return <Navigate to="/" replace />;
+    console.log("ProtectedRoute: redirecting to / (not admin or not logged in)", { user: !!user, authorized });
+    return <Navigate to="/" />;
   }
+
+  console.log("ProtectedRoute: rendering children?", user && authorized, "user:", user, "authorized:", authorized);
 
   return children;
 }

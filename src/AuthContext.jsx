@@ -10,12 +10,16 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log('AuthContext: Setting up onAuthStateChanged listener');
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log('AuthContext: onAuthStateChanged fired with user:', currentUser);
       setUser(currentUser);
       setLoading(false);
     });
     return unsubscribe;
   }, []);
+
+  console.log('AuthContext: Current state - user:', user, 'loading:', loading);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>

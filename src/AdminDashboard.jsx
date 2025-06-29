@@ -3,6 +3,8 @@ import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "./firebase";
 
 export default function AdminDashboard() {
+  console.log("AdminDashboard: rendered");
+  
   const [images, setImages] = useState([]);
   const [payments, setPayments] = useState([]);
 
