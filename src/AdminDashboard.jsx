@@ -9,13 +9,15 @@ export default function AdminDashboard() {
   useEffect(() => {
     getDocs(query(collection(db, "images"), orderBy("uploadedAt", "desc")))
       .then(snap => {
-        setImages(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-        console.log('Firestore user doc:', doc.data());
+        const imageData = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setImages(imageData);
+        console.log('Images loaded:', imageData.length);
       });
     getDocs(query(collection(db, "payments"), orderBy("paidAt", "desc")))
       .then(snap => {
-        setPayments(snap.docs.map(doc => ({ uid: doc.id, ...doc.data() })));
-        console.log('Firestore user doc:', doc.data());
+        const paymentData = snap.docs.map(doc => ({ uid: doc.id, ...doc.data() }));
+        setPayments(paymentData);
+        console.log('Payments loaded:', paymentData.length);
       });
   }, []);
 
