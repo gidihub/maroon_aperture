@@ -15,9 +15,9 @@ export default function Gallery() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch approved images
+        // Fetch all images (including unapproved for debugging)
         const imagesRef = collection(db, "images");
-        const q = query(imagesRef, where("isApproved", "==", true), orderBy("uploadedAt", "desc"));
+        const q = query(imagesRef, orderBy("uploadedAt", "desc"));
         const snapshot = await getDocs(q);
         const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setImages(data);
@@ -153,12 +153,17 @@ export default function Gallery() {
             const isPurchased = hasUserPaidForImage(img.name);
 
             return (
-              <div key={img.id} className={`border p-2 bg-white shadow rounded ${isPurchased ? 'ring-2 ring-green-400' : ''}`}>
+              <div key={img.id} className={`border p-2 bg-white shadow rounded ${isPurchased ? 'ring-2 ring-green-400' : ''} ${!img.isApproved ? 'ring-2 ring-yellow-400' : ''}`}>
                 <div className="relative">
                   <img src={img.url} alt={img.name} className="w-full h-40 object-cover rounded" />
                   {isPurchased && (
                     <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold">
                       ✓ OWNED
+                    </div>
+                  )}
+                  {!img.isApproved && (
+                    <div className="absolute top-2 left-2 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                      ⏳ PENDING
                     </div>
                   )}
                 </div>
@@ -184,13 +189,17 @@ export default function Gallery() {
                     >
                       📥 Download Now
                     </button>
-                  ) : (
+                  ) : img.isApproved ? (
                     <button
                       onClick={() => createCheckoutSession(img)}
                       className="mt-2 w-full bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded text-sm font-medium"
                     >
                       💳 Buy for $5.00
                     </button>
+                  ) : (
+                    <div className="mt-2 w-full bg-gray-300 text-gray-600 py-2 px-3 rounded text-sm font-medium text-center">
+                      ⏳ Awaiting Approval
+                    </div>
                   )}
                 </div>
               </div>

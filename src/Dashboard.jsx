@@ -39,6 +39,18 @@ export default function Dashboard() {
           Upload Images
         </button>
         <button
+          onClick={() => navigate("/gallery")}
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
+          View Gallery
+        </button>
+        <button
+          onClick={() => navigate("/setup-admin")}
+          className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
+        >
+          Setup Admin
+        </button>
+        <button
           onClick={handleLogout}
           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
         >
