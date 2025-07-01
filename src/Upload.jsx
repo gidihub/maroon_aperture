@@ -6,7 +6,7 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 export default function Upload() {
   const [file, setFile] = useState(null);
-  const [tags, setTags] = useState(""); // <-- added
+  const [tags, setTags] = useState("");
   const [uploading, setUploading] = useState(false);
 
   const handleFileChange = (e) => {
@@ -20,28 +20,29 @@ export default function Upload() {
     console.log("Starting upload for file:", file.name);
 
     try {
-      // Step 1: Upload to Firebase Storage
       const fileRef = ref(storage, `protected-images/${file.name}`);
       await uploadBytes(fileRef, file);
       const url = await getDownloadURL(fileRef);
       console.log("✅ File uploaded and URL obtained:", url);
 
-      // Step 2: Save to Firestore
       const user = auth.currentUser;
-      const tagArray = tags.split(',').map(tag => tag.trim().toLowerCase()).filter(Boolean); // sanitize
+      const tagArray = tags
+        .split(',')
+        .map(tag => tag.trim().toLowerCase())
+        .filter(Boolean);
 
       const docData = {
         url,
         name: file.name,
         uid: user?.uid || "anonymous",
         uploadedAt: serverTimestamp(),
-        tags: tagArray, // <-- added
+        tags: tagArray,
+        isApproved: false, // Required for moderation workflow
       };
 
       await addDoc(collection(db, "images"), docData);
-      alert("Upload successful!");
+      alert("Upload successful and pending approval!");
 
-      // Clear form
       setFile(null);
       setTags("");
     } catch (err) {

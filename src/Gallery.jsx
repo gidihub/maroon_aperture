@@ -1,6 +1,6 @@
 // src/Gallery.jsx
 import { useEffect, useState } from "react";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { httpsCallable } from "firebase/functions";
 import { auth, db, functions } from "./firebase";
 
@@ -15,15 +15,15 @@ export default function Gallery() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch images
+        // Fetch approved images
         const imagesRef = collection(db, "images");
-        const q = query(imagesRef, orderBy("uploadedAt", "desc"));
+        const q = query(imagesRef, where("isApproved", "==", true), orderBy("uploadedAt", "desc"));
         const snapshot = await getDocs(q);
         const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setImages(data);
         setFiltered(data);
 
-        // Check payment status
+        // Check user's payment status
         if (auth.currentUser) {
           const checkPaymentStatus = httpsCallable(functions, 'checkPaymentStatus');
           const result = await checkPaymentStatus();
@@ -94,7 +94,6 @@ export default function Gallery() {
         throw new Error(`Download failed: ${errorText}`);
       }
 
-      // The function redirects to the signed URL, so we can just open it
       window.open(response.url, "_blank");
     } catch (err) {
       console.error('Download error:', err);
@@ -152,7 +151,7 @@ export default function Gallery() {
         ) : (
           filtered.map(img => {
             const isPurchased = hasUserPaidForImage(img.name);
-            
+
             return (
               <div key={img.id} className={`border p-2 bg-white shadow rounded ${isPurchased ? 'ring-2 ring-green-400' : ''}`}>
                 <div className="relative">
@@ -177,7 +176,7 @@ export default function Gallery() {
                       ))}
                     </div>
                   )}
-                  
+
                   {isPurchased ? (
                     <button
                       onClick={() => handleDownload(img)}
@@ -202,4 +201,3 @@ export default function Gallery() {
     </div>
   );
 }
-

@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { db } from './firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import AdminPanel from './AdminPanel';
 
 export default function ProtectedRoute({ children, requireAdmin = false }) {
   const { user, loading } = useAuth();
