@@ -1,0 +1,21 @@
+{
+  "storage-resize-images": {
+    "params": {
+      "IMAGES_BUCKET": "maroon-aperture.appspot.com",
+      "LOCATION": "us-central1",
+      "RESIZED_IMAGES_PATH": "thumbnails",
+      "DELETE_ORIGINAL_FILE": false,
+      "MAKE_PUBLIC": false,
+      "IMAGE_TYPE": "jpg",
+      "IS_ANIMATED": false,
+      "STRIP": true,
+      "QUALITY": 80,
+      "MAX_WIDTH": 300,
+      "MAX_HEIGHT": 300,
+      "MIN_WIDTH": 0,
+      "MIN_HEIGHT": 0,
+      "FIT": "inside",
+      "BACKGROUND": "white"
+    }
+  }
+} 

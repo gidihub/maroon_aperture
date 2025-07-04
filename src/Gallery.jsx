@@ -122,9 +122,17 @@ export default function Gallery() {
 
       {paymentStatus.hasPaid && (
         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 max-w-3xl mx-auto">
-          <p className="text-center">
-            ✅ You have purchased {paymentStatus.paidImages.length} image(s). You can download them anytime!
-          </p>
+          <div className="text-center">
+            <p className="mb-2">
+              ✅ You have purchased {paymentStatus.paidImages.length} image(s). You can download them anytime!
+            </p>
+            <a
+              href="/purchase-history"
+              className="inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            >
+              📦 View Purchase History
+            </a>
+          </div>
         </div>
       )}
 

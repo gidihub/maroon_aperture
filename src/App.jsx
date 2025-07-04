@@ -5,6 +5,7 @@ import Dashboard from './Dashboard';
 import AdminPanel from './AdminPanel';
 import Upload from './Upload';
 import Gallery from './Gallery';
+import PurchaseHistory from './PurchaseHistory';
 import AdminDashboard from './AdminDashboard';
 import SetupAdmin from './SetupAdmin';
 import AutoSetupAdmin from './AutoSetupAdmin';
@@ -39,6 +40,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Gallery />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/purchase-history"
+          element={
+            <ProtectedRoute>
+              <PurchaseHistory />
             </ProtectedRoute>
           }
         />
