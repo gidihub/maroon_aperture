@@ -1,6 +1,6 @@
 // src/Gallery.jsx
 import { useEffect, useState } from "react";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { httpsCallable } from "firebase/functions";
 import { auth, db, functions } from "./firebase";
 
@@ -160,10 +160,17 @@ export default function Gallery() {
           filtered.map(img => {
             const isPurchased = hasUserPaidForImage(img.name);
 
+            // Compute thumbnail path based on image name
+            // (Assumes thumbnails are stored as /protected-images_thumbnails/{image.name})
+            const thumbnailUrl = img.url.replace(
+              "/protected-images/",
+              "/protected-images_thumbnails/"
+            );
+
             return (
               <div key={img.id} className={`border p-2 bg-white shadow rounded ${isPurchased ? 'ring-2 ring-green-400' : ''} ${!img.isApproved ? 'ring-2 ring-yellow-400' : ''}`}>
                 <div className="relative">
-                  <img src={img.url} alt={img.name} className="w-full h-40 object-cover rounded" />
+                  <img src={thumbnailUrl} alt={img.name} className="w-full h-40 object-cover rounded" onError={e => { e.target.onerror = null; e.target.src = img.url; }} />
                   {isPurchased && (
                     <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold">
                       ✓ OWNED

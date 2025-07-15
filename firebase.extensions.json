@@ -1,17 +1,17 @@
 {
   "storage-resize-images": {
     "params": {
-      "IMAGES_BUCKET": "maroon-aperture.appspot.com",
+      "IMAGES_BUCKET": "maroon-aperture.firebasestorage.app",
       "LOCATION": "us-central1",
-      "RESIZED_IMAGES_PATH": "thumbnails",
+      "RESIZED_IMAGES_PATH": "protected-images_thumbnails",
       "DELETE_ORIGINAL_FILE": false,
       "MAKE_PUBLIC": false,
       "IMAGE_TYPE": "jpg",
       "IS_ANIMATED": false,
       "STRIP": true,
       "QUALITY": 80,
-      "MAX_WIDTH": 300,
-      "MAX_HEIGHT": 300,
+      "MAX_WIDTH": 200,
+      "MAX_HEIGHT": 200,
       "MIN_WIDTH": 0,
       "MIN_HEIGHT": 0,
       "FIT": "inside",

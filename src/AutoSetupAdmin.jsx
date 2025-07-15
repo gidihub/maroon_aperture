@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from './firebase';
 import { useAuth } from './AuthContext';
@@ -14,9 +14,9 @@ export default function AutoSetupAdmin() {
     } else {
       setLoading(false);
     }
-  }, [user]);
+  }, [setupAdmin, user]);
 
-  const setupAdmin = async () => {
+  const setupAdmin = useCallback(async () => {
     try {
       console.log('🔧 Setting up admin access for user:', user.uid);
       const setupAdminFunction = httpsCallable(functions, 'setupAdmin');
@@ -36,7 +36,7 @@ export default function AutoSetupAdmin() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   if (!user) {
     return (
